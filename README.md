@@ -1,5 +1,5 @@
 # APP_showroom
-répertoire global pour le développement du projet APP
+Répertoire global pour le développement du projet APP
 
 # Contributeurs
 BORLET Arthur<br>
