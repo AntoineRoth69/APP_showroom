@@ -3,7 +3,7 @@ Répertoire global pour le développement du projet APP
 
 # Contributeurs
 BORLET Arthur<br>
-CELLE Maximillien<br>
+CELLE Maximilien<br>
 DEWAILLY Victor<br>
 MONIE Alexandre<br>
 PROTHIN Alexandre<br>
