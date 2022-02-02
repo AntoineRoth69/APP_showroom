@@ -2,14 +2,14 @@
 répertoire global pour le développement du projet APP
 
 # Contributeurs
-BORLET Arthur
-CELLE Maximillien
-DEWAILLY Victor
-MONIE Alexandre
-PROTHIN Alexandre
-ROTH Antoine
-TRITZ Arnaud
-WAGNER Samuel
+BORLET Arthur \n
+CELLE Maximillien \n
+DEWAILLY Victor \n
+MONIE Alexandre \n
+PROTHIN Alexandre \n
+ROTH Antoine \n
+TRITZ Arnaud \n
+WAGNER Samuel \n
 
 # Chef de projet
 CELLE Maximillien
