@@ -1,45 +1,92 @@
+from pickle import GET
+from unittest import result
 import flask
 from flask import request, jsonify
+import sqlite3
+import matplotlib.pyplot as plt
 
+# initialisation api
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
-
+"""
+Page d'acceuil de l'api
+"""
 @app.route('/', methods=['GET'])
 def home():
-    return '''<h1>Distant Reading Archive</h1>
-<p>A prototype API for distant reading of science fiction novels.</p>'''
+    return '''<h1>Flights database ressource</h1>
+<p>A test API for API connected to a database in python</p>'''
 
+"""
+Page d'erreur de l'api
+"""
 @app.errorhandler(404)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
 
-# A route to return all of the available entries in our catalog.
-@app.route('/api/v1/resources/books/all', methods=['GET'])
-def api_all():
-    return jsonify(books)
+"""
+@app_url/api/v1/ressources/flights/show/all?table=str[&nbLines=int]
+Retourne toutes les lignes d'une table donnees dans la requete.
+Renvoie a la page d'erreur en cas de table non existante
+Pour limiter le nombre de lignes, renseigner nbLines
+"""
+# a faire evoluer pour assurer le fonctionnement
+# avec les champs des tables
+@app.route('/api/v1/ressources/flights/show/all', methods=['GET'])
+def showTableFromDatabase():
+    query_params = request.args
+    table = query_params.get('table')
+    number_of_lines = query_params.get('nbLines')
 
-@app.route('/api/v1/resources/books', methods=['GET'])
-def api_id():
-    # Check if an ID was provided as part of the URL.
-    # If ID is provided, assign it to a variable.
-    # If no ID is provided, display an error in the browser.
-    if 'id' in request.args:
-        id = int(request.args['id'])
-    else:
-        return "Error: No id field provided. Please specify an id."
+    req = "SELECT * FROM "
 
-    # Create an empty list for our results
-    results = []
+    # liste des tables a changer
+    if (table in ["airlines","airports","routes"]):
+        # creation de la requete
+        req += table
+    else :
+        return '''<h1>Argument de table non valable</h1>'''
+    if number_of_lines:
+        req += " LIMIT " + number_of_lines + ";"
+    if not(table):
+        return page_not_found(404)
+    
+    # initialisation db
+    conn = sqlite3.connect('./database/flights.db', check_same_thread=False)
+    
+    # execution de la requete SQL
+    cursor = conn.cursor()
+    cursor.execute(req)
 
-    # Loop through the data and match results that fit the requested ID.
-    # IDs are unique, but other fields might return many results
-    for book in books:
-        if book['id'] == id:
-            results.append(book)
+    # recuperation des resultats
+    results = cursor.fetchall()
 
-    # Use the jsonify function from Flask to convert our list of
-    # Python dictionaries to the JSON format.
+    # fermeture de la base de donnees
+    cursor.close()
+    conn.close()
+
+    return jsonify(results)
+
+@app.route('/api/v1/ressources/flights/show/coordinates', methods=['GET'])
+def trace_airports():
+    # initialisation db
+    conn = sqlite3.connect('./database/flights.db', check_same_thread=False)
+    
+    # execution de la requete SQL
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT CAST(longitude AS float),
+        CAST(latitude AS float)
+        FROM airports;
+        """)
+
+    # recuperation des resultats
+    results = cursor.fetchall()
+
+    # fermeture de la base de donnees
+    cursor.close()
+    conn.close()
+
     return jsonify(results)
 
 app.run()
