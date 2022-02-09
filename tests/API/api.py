@@ -3,6 +3,7 @@ from unittest import result
 import flask
 from flask import request, jsonify
 import sqlite3
+import matplotlib.pyplot as plt
 
 # initialisation api
 app = flask.Flask(__name__)
@@ -29,6 +30,8 @@ Retourne toutes les lignes d'une table donnees dans la requete.
 Renvoie a la page d'erreur en cas de table non existante
 Pour limiter le nombre de lignes, renseigner nbLines
 """
+# a faire evoluer pour assurer le fonctionnement
+# avec les champs des tables
 @app.route('/api/v1/ressources/flights/show/all', methods=['GET'])
 def showTableFromDatabase():
     query_params = request.args
@@ -54,6 +57,28 @@ def showTableFromDatabase():
     # execution de la requete SQL
     cursor = conn.cursor()
     cursor.execute(req)
+
+    # recuperation des resultats
+    results = cursor.fetchall()
+
+    # fermeture de la base de donnees
+    cursor.close()
+    conn.close()
+
+    return jsonify(results)
+
+@app.route('/api/v1/ressources/flights/show/coordinates', methods=['GET'])
+def trace_airports():
+    # initialisation db
+    conn = sqlite3.connect('./database/flights.db', check_same_thread=False)
+    
+    # execution de la requete SQL
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT CAST(longitude AS float),
+        CAST(latitude AS float)
+        FROM airports;
+        """)
 
     # recuperation des resultats
     results = cursor.fetchall()
