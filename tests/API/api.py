@@ -4,6 +4,7 @@ import flask
 from flask import request, jsonify
 import sqlite3
 import matplotlib.pyplot as plt
+import index
 
 # initialisation api
 app = flask.Flask(__name__)
@@ -14,8 +15,7 @@ Page d'acceuil de l'api
 """
 @app.route('/', methods=['GET'])
 def home():
-    return '''<h1>Flights database ressource</h1>
-<p>A test API for API connected to a database in python</p>'''
+    return index.getHomePage()
 
 """
 Page d'erreur de l'api
