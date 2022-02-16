@@ -34,7 +34,7 @@ Pour limiter le nombre de lignes, renseigner nbLines
 # avec les champs des tables
 @app.route('/api/v1/ressources/flights/show/all', methods=['GET'])
 def showTableFromDatabase():
-    # initialisation db
+    # initialisation database
     conn = sqlite3.connect('./database/flights.db', check_same_thread=False)
     
     # requete SQL contenant toutes les tables de la base de données
