@@ -15,7 +15,14 @@ WAGNER Samuel<br>
 CELLE Maximillien
 
 # Objectif du projet
-Développer des outils pour la localisation indoor.<br>
+## Equipe infrarouge
+Utilisation de capteurs infrarouge pour la localisation indoor.<br>
+Programmation de cartes raspberry pi pour une centralisation des données récupérée par les capteurs (situés dans les dalles du plafond.<br>
 Création d'une API pour la modulabilité de notre travail.
+
+## Equipe Lidar
+
+## Equipe Mobilier
+
 
 # Utilisation de l'API
