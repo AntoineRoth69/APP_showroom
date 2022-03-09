@@ -1,5 +1,4 @@
-def getHomePage():
-    return '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <title>APP Showroom Api</title>
 <meta charset="UTF-8">
@@ -17,4 +16,3 @@ def getHomePage():
 </div>
 </body>
 </html>
-'''
