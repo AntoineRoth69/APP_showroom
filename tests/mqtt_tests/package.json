@@ -1,0 +1,20 @@
+{
+  "name": "mqtt_tests",
+  "version": "1.0.0",
+  "description": "APP showroom tests",
+  "main": "mqtt_tests.js",
+  "scripts": {
+    "build": "browserify mqtt_tests.js -o bundle.js",
+    "watch": "watchify mqtt_tests.js -o bundle.js"
+  },
+  "author": "antoine",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "mqtt": "^4.3.6",
+    "watchify": "^4.0.0"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0"
+  }
+}
