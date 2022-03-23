@@ -1,0 +1,11 @@
+//first time
+npm init
+//mettre a jour le bundle
+npm run build
+
+
+go essayer en python
+Eclipse Paho Python
+https://www.emqx.com/en/blog/introduction-to-the-commonly-used-mqtt-client-library
+
+
