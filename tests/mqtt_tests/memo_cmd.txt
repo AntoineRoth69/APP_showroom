@@ -1,3 +1,6 @@
+//install mqtt packages
+npm i mqtt
+
 //first time
 npm init
 //mettre a jour le bundle
@@ -8,4 +11,5 @@ go essayer en python
 Eclipse Paho Python
 https://www.emqx.com/en/blog/introduction-to-the-commonly-used-mqtt-client-library
 
-
+packages python a dl
+pip install paho-mqtt
