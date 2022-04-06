@@ -1,6 +1,7 @@
 #install mqtt packages
 #pip install paho.mqtt
 
+from email import message
 from operator import indexOf
 import paho.mqtt.client as mqtt
 import json
@@ -12,11 +13,9 @@ def on_connect(client, userdata, flags, rc):
 
 # add new values to a list, delete old ones if too many values
 def append_limit(value, list):
-    newList = list
     if(len(list)>=15):
         del list[0]
-    newList.append(value)
-    return newList
+    list.append(value)
 
 # moyennes des capteurs en paramètres 
 # Capteurs : PIR1, PIR2, PIR3, PIR4, PIR5
@@ -46,7 +45,7 @@ def on_message(client, userdata, msg):
         for value in capteur.items():
             append_limit(value, datas)
     # print(msg.topic+" "+str(msg.payload))
-    print(moys(capteurs_datas, ['PIR1', 'PIR2']))
+    print(moys(capteurs_datas, ['PIR1', 'PIR2', 'PIR3', 'PIR4', 'PIR5']))
     
 
 client = mqtt.Client()
