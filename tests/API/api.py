@@ -34,6 +34,18 @@ Pour limiter le nombre de lignes, renseigner nbLines
 # avec les champs des tables
 @app.route('/api/v1/ressources/flights/show/all', methods=['GET'])
 def showTableFromDatabase():
+    # initialisation database
+    conn = sqlite3.connect('./database/flights.db', check_same_thread=False)
+    
+    # requete SQL contenant toutes les tables de la base de données
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+
+    tableChoice = []
+    for t in tables:
+        tableChoice.append(t[0])
+
     query_params = request.args
     table = query_params.get('table')
     number_of_lines = query_params.get('nbLines')
@@ -41,7 +53,7 @@ def showTableFromDatabase():
     req = "SELECT * FROM "
 
     # liste des tables a changer
-    if (table in ["airlines","airports","routes"]):
+    if (table in tableChoice):
         # creation de la requete
         req += table
     else :
@@ -51,11 +63,6 @@ def showTableFromDatabase():
     if not(table):
         return page_not_found(404)
     
-    # initialisation db
-    conn = sqlite3.connect('./database/flights.db', check_same_thread=False)
-    
-    # execution de la requete SQL
-    cursor = conn.cursor()
     cursor.execute(req)
 
     # recuperation des resultats
