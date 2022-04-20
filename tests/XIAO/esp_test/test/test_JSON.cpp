@@ -82,11 +82,19 @@ void setup() {
 
 }
 
-void publishSerialData(char *serialData){
+void publishData(String data){
   if (!client.connected()) {
     reconnect();
   }
-  client.publish(MQTT_SERIAL_PUBLISH_CH, serialData);
+    char payload[data.length()];
+
+    int i;
+    for (i = 0; i < sizeof(payload); i++) {
+        payload[i] = data[i];
+
+    }
+
+    client.publish(MQTT_SERIAL_PUBLISH_CH, payload);
 }
 void loop() {
   
@@ -119,7 +127,7 @@ void loop() {
     JSonString += x5;
     JSonString += "}]";
 
-    client.publish(MQTT_SERIAL_PUBLISH_CH, MQTT_TEST);
+    publishData(JSonString);
     delay(5000);
 
 }

@@ -1,3 +1,5 @@
+//adresse mac:
+//f0:08:d1:d2:83:30
 #include <WiFi.h>
 #include <PubSubClient.h>
 

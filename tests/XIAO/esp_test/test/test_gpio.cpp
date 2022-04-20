@@ -18,11 +18,6 @@ int pin[10]={PIN0,PIN1,PIN2,PIN3,PIN4,PIN5,PIN6,PIN7,PIN8,PIN9};
 double x0,x1,x2,x3,x4,x5,x6,x7,x8,x9;
 double res[10]={x0,x1,x2,x3,x4,x5,x6,x7,x8,x9};
 
-//init before
-long before=0;
-//init timeout entre 2 publi
-long timeout=1000;
-
 
 void initPin(){
 
@@ -71,15 +66,17 @@ String createJson(){
 }
 
 void publishtempo(){
-    long now = millis();
-    
-    if(now-before >= timeout)
+    long temps = millis();
+    if(temps >= 6000)
     {   
         Serial.println(createJson());
-        before= now;
+        temps = 0;
     }
 
 }
+
+
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -91,10 +88,11 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   
+
+
     publishtempo();
 
 }
-
 
 
  
