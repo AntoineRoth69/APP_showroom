@@ -8,7 +8,10 @@ int PIN2=A2;
 int PIN3=A3;
 int PIN4=A4;
 
-
+//coef de la fonction des capteurs:
+int  Coef1= 5;
+//coef des valeur axiales:
+int  Kaxe = 50;
 //mesure du capteur a vide
 int const VX1   = analogRead(PIN1);
 int const VX2   = analogRead(PIN2);
@@ -22,9 +25,9 @@ float diffx,diffy;
 float moydifx,moydify;
 
 //decla tableaux
-unsigned int const nbval=10;
+int const nbval=10;
 float Val1[nbval],Val2[nbval],Val3[nbval],Val4[nbval];
-unsigned int const nbdiff=5;
+int const nbdiff=5;
 float tdiffx[nbdiff],tdiffy[nbdiff];
 
 
@@ -54,7 +57,7 @@ void readVal(){
 
 }
 
-float moyenne(float tab[], unsigned int l){
+float moyenne(float tab[], int l){
 
     int somme=0;
     float m;
@@ -97,8 +100,6 @@ void calculModif(){
 
 String createJson(){
 
-    //Mesure les valeurs fait les moyennes et les diff
-    calculModif();
     //x
     String JSon = "[{\"x\":";
     JSon+= moydifx;
@@ -131,14 +132,15 @@ void setup() {
     pinMode(PIN2, INPUT);
     pinMode(PIN3, INPUT);
     pinMode(PIN4, INPUT);
-
+    Serial.println("fauteuil 9000 initialized");
 }
 
 
 void loop() {
 
 
-
+    //Mesure les valeurs fait les moyennes et les diff
+    calculModif();
     //affichage en Json
     Serial.println(createJson());
 

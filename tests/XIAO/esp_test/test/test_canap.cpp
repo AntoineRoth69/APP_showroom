@@ -3,10 +3,10 @@
 
 //déclaration variable
 
-int PIN1=A1;
-int PIN2=A2;
-int PIN3=A3;
-int PIN4=A4;
+int PIN1=39;
+int PIN2=34;
+int PIN3=35;
+int PIN4=32;
 
 
 //mesure du capteur a vide
@@ -96,7 +96,7 @@ void calculModif(){
 }
 
 String createJson(){
-
+    
     //Mesure les valeurs fait les moyennes et les diff
     calculModif();
     //x
