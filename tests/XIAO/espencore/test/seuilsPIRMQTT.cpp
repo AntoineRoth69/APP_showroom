@@ -18,7 +18,7 @@ const char* mqtt_server = "10.100.100.117";
 
 //Timing init et intervalle
 long before=0;
-long timeout= 1000;
+long timeout= 100;
 
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
@@ -116,6 +116,9 @@ void publishTempodData(String data){
 ////////////////////////////Partie Acquisition et format///////////////////////////////////////////////
 //Init acquisition
 #include <Arduino.h>
+
+float coeffH=0.65;
+float coeffL=0.35;
 //alim en 3,3V
 //pin d'entrée
 int PIN0=36;
@@ -130,7 +133,11 @@ int pin[nbPIN]={PIN0,PIN1,PIN2,PIN3};
 
 //init read
 double x0,x1,x2,x3;
+double x0b,x1b,x2b,x3b;
+double x0max,x1max,x2max,x3max;
 double res[nbPIN]={x0,x1,x2,x3};
+double resmax[nbPIN]={x0max,x1max,x2max,x3max};
+double resbool[nbPIN]={x0b,x1b,x2b,x3b};
 
 //Fonctions acquisition et Json
 void initPin(){
@@ -141,13 +148,43 @@ void initPin(){
     }    
 }
 
+
+boolean filtreTest(float a, float x_max){
+
+  float high= coeffH*x_max;
+  float low= x_max*coeffL;
+
+  if ((a<low) || (a>high))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+
+float valmax(float x,float x_max){
+
+  if (x > x_max)
+  {
+    x_max=x;
+  }
+  return x_max;
+}
+
 void readPin(){
     for (size_t i = 0; i < nbPIN; i++)
     {
         //lecture directe
         res[i]=analogRead(pin[i]);
+        resmax[i]=valmax(res[i],resmax[i]);
+        resbool[i]=filtreTest(res[i],resmax[i]);
+
     }    
 }
+
 
 //creation d'une string prete à l'envoi
 String createJson(){
@@ -163,7 +200,7 @@ String createJson(){
         num_capteur+="\":";
         //concat JSon
         JSon+= num_capteur;
-        JSon+= res[i];
+        JSon+= resbool[i];
         JSon+= "},";
     }
     //fermeture JSon

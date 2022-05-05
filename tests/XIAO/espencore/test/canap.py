@@ -9,11 +9,11 @@ import json
 # Successful Connection Callback
 def on_connect(client, userdata, flags, rc):
     print('Connected with result code '+str(rc))
-    client.subscribe('/showroom/PIR')
+    client.subscribe('/showroom/canap')
 
 # add new values to a list, delete old ones if too many values
 def append_limit(value, list):
-    nb_valeur=1
+    nb_valeur=15
     if(len(list)>=nb_valeur):
         del list[0]
     list.append(value)
@@ -40,14 +40,13 @@ capteurs_datas = []
 def on_message(client, userdata, msg):
     
     message_json = json.loads(msg.payload.decode("utf-8"))
-    for capteur in message_json:
-        if(len(capteurs_datas)<len(message_json)):
-            capteurs_datas.append([])
-        datas = capteurs_datas[message_json.index(capteur)]
-        for value in capteur.items():
-            append_limit(value, datas)
-    # print(msg.topic+" "+str(msg.payload))
-    print(moys(capteurs_datas, ['PIR0','PIR1', 'PIR2', 'PIR3']))
+
+ 
+
+        
+    print(msg.topic+" "+str(msg.payload))
+    a=message_json[0].values()
+    print(a)
     
 
 client = mqtt.Client()
@@ -59,6 +58,6 @@ client.on_message = on_message
 # Set up connection
 client.connect('10.100.100.117', 443, 60)
 # Publish message
-client.publish('/showroom/PIR',payload='SUR',qos=0)
+client.publish('/showroom/canap',payload='SUR',qos=0)
 
 client.loop_forever()
